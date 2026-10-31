@@ -13,6 +13,8 @@ public interface TeamService {
 
     void addTeam(AddTeamDto dto);
 
+    void addTeams(List<AddTeamDto> forms);
+
     void updateTeam(String originalName, AddTeamDto dto);
 
     void removeTeam(String teamName);

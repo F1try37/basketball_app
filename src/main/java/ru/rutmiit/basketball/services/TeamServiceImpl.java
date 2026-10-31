@@ -45,6 +45,17 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
+    public void addTeams(List<AddTeamDto> forms) {
+        for (AddTeamDto form : forms) {
+            Team team = new Team();
+            copyFields(form, team);
+            teamRepository.save(team);
+        }
+        teamRepository.flush();
+    }
+
+    @Override
+    @Transactional
     public void updateTeam(String originalName, AddTeamDto form) {
         Team team = findTeam(originalName);
         String newName = form.getName().trim();
