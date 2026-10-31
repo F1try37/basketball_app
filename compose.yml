@@ -1,0 +1,21 @@
+name: basketball
+
+services:
+  postgres:
+    image: postgres:18.4-alpine3.24
+    environment:
+      POSTGRES_DB: basketball
+      POSTGRES_USER: ${DB_USERNAME:-basketball_app}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Задайте DB_PASSWORD в .env}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - postgres-data:/var/lib/postgresql
+
+volumes:
+  postgres-data:

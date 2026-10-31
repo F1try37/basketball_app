@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<header th:replace="~{fragments/navbar}"></header>
+<main id="main-content" class="container">
+    <h1 th:text="${formHeading}">Компания</h1>
+
+    <form class="stack"
+          th:action="${editing}
+            ? @{/teams/{teamName}(teamName=${originalName})}
+            : @{/teams}"
+          method="post"
+          th:object="${teamModel}"
+          novalidate>
+
+        <div role="alert" th:if="${#fields.hasAnyErrors()}">
+            Исправьте отмеченные поля.
+        </div>
+
+        <p>
+            <label for="name">Название
+                <input id="name" type="text" th:field="*{name}" maxlength="100"
+                       th:attr="aria-invalid=${#fields.hasErrors('name')},
+                      aria-describedby=${#fields.hasErrors('name')} ? 'name-error'">
+                <span id="name-error"
+                      th:if="${#fields.hasErrors('name')}"
+                      th:errors="*{name}">Ошибка названия</span>
+            </label>
+        </p>
+
+        <p>
+            <label for="city">Город
+                <input id="city" type="text" th:field="*{city}" maxlength="100"
+                       th:attr="aria-invalid=${#fields.hasErrors('city')},
+                      aria-describedby=${#fields.hasErrors('city')} ? 'city-error'">
+                <span id="city-error"
+                      th:if="${#fields.hasErrors('city')}"
+                      th:errors="*{city}">Ошибка города</span>
+            </label>
+        </p>
+
+        <p>
+            <label for="description">Описание
+                <textarea id="description" rows="4"
+                          th:field="*{description}" maxlength="2000"
+                          th:attr="aria-invalid=${#fields.hasErrors('description')},
+                         aria-describedby=${#fields.hasErrors('description')} ? 'description-error'"></textarea>
+                <span id="description-error"
+                      th:if="${#fields.hasErrors('description')}"
+                      th:errors="*{description}">Ошибка описания</span>
+            </label>
+        </p>
+
+        <p>
+            <label for="foundedYear">Год основания
+                <input id="foundedYear" type="number" min="1891" max="2026"
+                       th:field="*{foundedYear}"
+                       th:attr="aria-invalid=${#fields.hasErrors('foundedYear')},
+                      aria-describedby=${#fields.hasErrors('foundedYear')} ? 'foundedYear-error'">
+                <span id="foundedYear-error"
+                      th:if="${#fields.hasErrors('foundedYear')}"
+                      th:errors="*{foundedYear}">Ошибка года основания</span>
+            </label>
+        </p>
+
+        <button type="submit" th:text="${submitLabel}">Сохранить</button>
+    </form>
+
+    <a th:href="@{/teams}">Вернуться к списку</a>
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

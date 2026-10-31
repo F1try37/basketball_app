@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<header th:replace="~{fragments/navbar}"></header>
+<main id="main-content" class="container">
+    <h1>Игроки</h1>
+
+    <div class="grid" th:if="${!#lists.isEmpty(playerInfos)}">
+        <article class="card" th:each="player : ${playerInfos}">
+            <h2 th:text="${player.name}">Имя</h2>
+            <p>
+                <strong>Команда:</strong>
+                <span th:text="${player.team}">Команда</span>
+            </p>
+        </article>
+    </div>
+
+    <p th:if="${#lists.isEmpty(playerInfos)}">
+        Игроки пока не добавлены.
+    </p>
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

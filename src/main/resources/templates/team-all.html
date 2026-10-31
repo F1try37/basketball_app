@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<header th:replace="~{fragments/navbar}"></header>
+<main id="main-content" class="container">
+    <h1>Команды</h1>
+    <p>Каталог команд лиги.</p>
+
+    <p role="status" th:if="${successMessage}" th:text="${successMessage}">
+        Сообщение об успехе
+    </p>
+
+    <p><a th:href="@{/teams/add}">Добавить команду</a></p>
+
+    <div class="grid" th:if="${!#lists.isEmpty(teamInfos)}">
+        <article class="card" th:each="team : ${teamInfos}">
+            <h2 th:text="${team.name}">Название</h2>
+            <p>
+                <strong>Город:</strong>
+                <span th:text="${team.city}">Город</span>
+            </p>
+            <p th:text="${team.description}">Описание</p>
+            <a th:href="@{/teams/{teamName}(teamName=${team.name})}">
+                Подробнее
+            </a>
+        </article>
+    </div>
+
+    <p th:if="${#lists.isEmpty(teamInfos)}">
+        Команды пока не добавлены.
+    </p>
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

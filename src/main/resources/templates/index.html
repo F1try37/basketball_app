@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<header th:replace="~{fragments/navbar}"></header>
+<main id="main-content" class="container">
+    <h1>Баскетбольная лига</h1>
+    <p>Каталог команд и игроков учебного приложения.</p>
+    <p><a th:href="@{/teams}">Команды</a></p>
+    <p><a th:href="@{/players}">Игроки</a></p>
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

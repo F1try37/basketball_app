@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<header th:replace="~{fragments/navbar}"></header>
+<main id="main-content" class="container">
+    <p role="status" th:if="${successMessage}" th:text="${successMessage}">
+        Сообщение об успехе
+    </p>
+
+    <article class="card">
+        <h1 th:text="${teamDetails.name}">Название</h1>
+        <dl>
+            <dt>Город</dt>
+            <dd th:text="${teamDetails.city}">Город</dd>
+            <dt>Описание</dt>
+            <dd th:text="${teamDetails.description}">Описание</dd>
+            <dt>Год основания</dt>
+            <dd th:text="${teamDetails.foundedYear}">0000</dd>
+        </dl>
+        <p>
+            <a th:href="@{/teams/{teamName}/edit(teamName=${teamDetails.name})}">Редактировать команду</a>
+        </p>
+        <form method="post"
+              th:action="@{/teams/{teamName}/delete(teamName=${teamDetails.name})}">
+            <button type="submit">Удалить команду</button>
+        </form>
+    </article>
+    <a th:href="@{/teams}">Вернуться к списку</a>
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>
