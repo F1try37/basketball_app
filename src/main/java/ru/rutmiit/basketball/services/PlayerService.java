@@ -1,9 +1,13 @@
 package ru.rutmiit.basketball.services;
 
-import ru.rutmiit.basketball.models.entities.Player;
+import ru.rutmiit.basketball.dto.AddPlayerDto;
+import ru.rutmiit.basketball.dto.PlayerSummary;
 
 import java.util.List;
 
 public interface PlayerService {
-    List<Player> allPlayers();
+
+    List<PlayerSummary> allPlayers();
+
+    void addPlayer(AddPlayerDto form);
 }

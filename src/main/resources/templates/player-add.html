@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<header th:replace="~{fragments/navbar}"></header>
+<main id="main-content" class="container">
+    <h1>Новый игрок</h1>
+    <p th:if="${#lists.isEmpty(teams)}">Сначала добавьте команду.</p>
+    <form class="stack card" th:action="@{/players/add}" method="post"
+          th:object="${playerModel}" novalidate>
+        <p class="error" role="alert" th:if="${#fields.hasAnyErrors()}">Исправьте отмеченные поля.</p>
+        <p class="error" role="alert" th:each="error : ${#fields.globalErrors()}" th:text="${error}"></p>
+        <div>
+            <label for="firstName">Имя</label>
+            <input id="firstName" type="text" th:field="*{firstName}" maxlength="100" required
+                   th:attr="aria-invalid=${#fields.hasErrors('firstName')},aria-describedby=${#fields.hasErrors('firstName') ? 'firstName-error' : null}">
+            <span id="firstName-error" class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+        </div>
+        <div>
+            <label for="lastName">Фамилия</label>
+            <input id="lastName" type="text" th:field="*{lastName}" maxlength="100" required
+                   th:attr="aria-invalid=${#fields.hasErrors('lastName')},aria-describedby=${#fields.hasErrors('lastName') ? 'lastName-error' : null}">
+            <span id="lastName-error" class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+        </div>
+        <div>
+            <label for="position">Позиция</label>
+            <select id="position" th:field="*{position}" required
+                    th:attr="aria-invalid=${#fields.hasErrors('position')},aria-describedby=${#fields.hasErrors('position') ? 'position-error' : null}">
+                <option value="">Выберите позицию</option>
+                <option th:each="p : ${positions}" th:value="${p.name()}" th:text="${p.abbreviation + ' — ' + p.title}"></option>
+            </select>
+            <span id="position-error" class="error" th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></span>
+        </div>
+        <div>
+            <label for="jerseyNumber">Игровой номер</label>
+            <input id="jerseyNumber" type="number" min="0" max="99" step="1" th:field="*{jerseyNumber}" required
+                   th:attr="aria-invalid=${#fields.hasErrors('jerseyNumber')},aria-describedby=${#fields.hasErrors('jerseyNumber') ? 'jerseyNumber-error' : null}">
+            <span id="jerseyNumber-error" class="error" th:if="${#fields.hasErrors('jerseyNumber')}" th:errors="*{jerseyNumber}"></span>
+        </div>
+        <div>
+            <label for="birthDate">Дата рождения, ГГГГ-ММ-ДД</label>
+            <input id="birthDate" type="text" th:field="*{birthDate}" placeholder="1963-02-17" required
+                   th:attr="aria-invalid=${#fields.hasErrors('birthDate')},aria-describedby=${#fields.hasErrors('birthDate') ? 'birthDate-error' : null}">
+            <span id="birthDate-error" class="error" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}"></span>
+        </div>
+        <div>
+            <label for="gamesPlayed">Сыграно матчей</label>
+            <input id="gamesPlayed" type="number" min="0" step="1" th:field="*{gamesPlayed}" required
+                   th:attr="aria-invalid=${#fields.hasErrors('gamesPlayed')},aria-describedby=${#fields.hasErrors('gamesPlayed') ? 'gamesPlayed-error' : null}">
+            <span id="gamesPlayed-error" class="error" th:if="${#fields.hasErrors('gamesPlayed')}" th:errors="*{gamesPlayed}"></span>
+        </div>
+        <div>
+            <label for="pointsPerGame">Очки за игру</label>
+            <input id="pointsPerGame" type="text" inputmode="decimal" th:field="*{pointsPerGame}" placeholder="27.5" required
+                   th:attr="aria-invalid=${#fields.hasErrors('pointsPerGame')},aria-describedby=${#fields.hasErrors('pointsPerGame') ? 'pointsPerGame-error' : null}">
+            <span id="pointsPerGame-error" class="error" th:if="${#fields.hasErrors('pointsPerGame')}" th:errors="*{pointsPerGame}"></span>
+        </div>
+        <div>
+            <label for="reboundsPerGame">Подборы за игру</label>
+            <input id="reboundsPerGame" type="text" inputmode="decimal" th:field="*{reboundsPerGame}" placeholder="7.1" required
+                   th:attr="aria-invalid=${#fields.hasErrors('reboundsPerGame')},aria-describedby=${#fields.hasErrors('reboundsPerGame') ? 'reboundsPerGame-error' : null}">
+            <span id="reboundsPerGame-error" class="error" th:if="${#fields.hasErrors('reboundsPerGame')}" th:errors="*{reboundsPerGame}"></span>
+        </div>
+        <div>
+            <label for="assistsPerGame">Передачи за игру</label>
+            <input id="assistsPerGame" type="text" inputmode="decimal" th:field="*{assistsPerGame}" placeholder="5.3" required
+                   th:attr="aria-invalid=${#fields.hasErrors('assistsPerGame')},aria-describedby=${#fields.hasErrors('assistsPerGame') ? 'assistsPerGame-error' : null}">
+            <span id="assistsPerGame-error" class="error" th:if="${#fields.hasErrors('assistsPerGame')}" th:errors="*{assistsPerGame}"></span>
+        </div>
+        <div>
+            <label for="teamName">Команда</label>
+            <select id="teamName" th:field="*{teamName}" required
+                    th:attr="aria-invalid=${#fields.hasErrors('teamName')},aria-describedby=${#fields.hasErrors('teamName') ? 'teamName-error' : null}">
+                <option value="">Выберите команду</option>
+                <option th:each="team : ${teams}" th:value="${team.name}" th:text="${team.name}"></option>
+            </select>
+            <span id="teamName-error" class="error" th:if="${#fields.hasErrors('teamName')}" th:errors="*{teamName}"></span>
+        </div>
+        <button type="submit">Добавить игрока</button>
+    </form>
+    <p><a th:href="@{/players}">Вернуться к игрокам</a></p>
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

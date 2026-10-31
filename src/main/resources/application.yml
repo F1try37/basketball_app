@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: basketball
+  profiles:
+    default: database
+  thymeleaf:
+    cache: false
+
+server:
+  port: 8081
+  error:
+    include-message: never
+    include-stacktrace: never
+  servlet:
+    session:
+      tracking-modes: cookie

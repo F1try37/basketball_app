@@ -7,8 +7,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.rutmiit.basketball.dto.AddTeamDto;
-import ru.rutmiit.basketball.models.entities.Team;
+import ru.rutmiit.basketball.dto.TeamSummary;
 import ru.rutmiit.basketball.services.TeamService;
+import ru.rutmiit.basketball.services.exceptions.TeamAlreadyExistsException;
 
 @Controller
 @RequestMapping("/teams")
@@ -61,7 +62,7 @@ public class TeamController {
 
         try {
             teamService.addTeam(dto);
-        } catch (IllegalArgumentException exception) {
+        } catch (TeamAlreadyExistsException exception) {
             bindingResult.rejectValue("name", "duplicate", exception.getMessage());
             prepareCreateForm(model);
             return "team-add";
@@ -69,7 +70,7 @@ public class TeamController {
 
         redirectAttributes.addFlashAttribute(
                 "successMessage",
-                "Команда '" + dto.getName() + "' успешно добавлена"
+                "Команда '" + dto.getName().trim() + "' успешно добавлена"
         );
         return "redirect:/teams";
     }
@@ -79,7 +80,7 @@ public class TeamController {
             @PathVariable String teamName,
             Model model
             ) {
-        Team team = teamService.teamDetails(teamName);
+        TeamSummary team = teamService.teamDetails(teamName);
 
         AddTeamDto form = new AddTeamDto();
         form.setName(team.name());
@@ -104,8 +105,13 @@ public class TeamController {
             prepareEditForm(model, teamName);
             return "team-add";
         }
-
-        teamService.updateTeam(teamName, teamModel);
+        try {
+            teamService.updateTeam(teamName, teamModel);
+        } catch (TeamAlreadyExistsException exception) {
+            bindingResult.rejectValue("name", "duplicate", exception.getMessage());
+            prepareEditForm(model, teamName);
+            return "team-add";
+        }
         redirectAttributes.addFlashAttribute(
                 "successMessage", "Команда успешно изменена"
         );

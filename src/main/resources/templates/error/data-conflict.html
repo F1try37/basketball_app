@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<header th:replace="~{fragments/navbar}"></header>
+<main id="main-content" class="container">
+    <h1>Изменение невозможно</h1>
+    <p th:text="${errorMessage}">Данные связаны с другими записями.</p>
+    <a th:href="@{/teams}">Вернуться к командам</a>
+</main>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

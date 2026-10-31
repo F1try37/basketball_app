@@ -1,4 +1,9 @@
 package ru.rutmiit.basketball.dto;
 
-public class TeamSummary {
+public record TeamSummary(
+   String name,
+   String city,
+   String description,
+   Integer foundedYear
+) {
 }

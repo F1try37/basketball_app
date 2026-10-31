@@ -6,12 +6,25 @@
 <main id="main-content" class="container">
     <h1>Игроки</h1>
 
+    <p role="status" th:if="${successMessage}" th:text="${successMessage}"></p>
+    <p><a th:href="@{/players/add}">Добавить игрока</a></p>
+
     <div class="grid" th:if="${!#lists.isEmpty(playerInfos)}">
         <article class="card" th:each="player : ${playerInfos}">
-            <h2 th:text="${player.name}">Имя</h2>
+            <h2 th:text="${player.firstName + ' ' + player.lastName}">Имя Фамилия</h2>
             <p>
                 <strong>Команда:</strong>
-                <span th:text="${player.team}">Команда</span>
+                <span th:text="${player.teamName}">Команда</span>
+            </p>
+            <p>
+                <span th:text="${'#' + player.jerseyNumber}">#00</span>
+                <span th:text="${player.position.title}">Позиция</span>
+            </p>
+            <p>
+                <span th:text="${player.pointsPerGame}">0.0</span> очков
+                <span th:text="${player.reboundsPerGame}">0.0</span> подборов
+                <span th:text="${player.assistsPerGame}">0.0</span> передач
+                за <span th:text="${player.gamesPlayed}">0</span> матчей
             </p>
         </article>
     </div>

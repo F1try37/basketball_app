@@ -1,15 +1,15 @@
 package ru.rutmiit.basketball.services;
 
 import ru.rutmiit.basketball.dto.AddTeamDto;
-import ru.rutmiit.basketball.models.entities.Team;
+import ru.rutmiit.basketball.dto.TeamSummary;
 
 import java.util.List;
 
 public interface TeamService {
 
-    List<Team> allTeams();
+    List<TeamSummary> allTeams();
 
-    Team teamDetails(String teamName);
+    TeamSummary teamDetails(String teamName);
 
     void addTeam(AddTeamDto dto);
 
